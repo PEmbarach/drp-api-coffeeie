@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from posts.models import Post
+from rate.models import Rate
 
 
 class RateSerializer(serializers.ModelSerializer):
@@ -13,7 +13,7 @@ class RateSerializer(serializers.ModelSerializer):
         return request.user == obj.owner
 
     class Meta:
-        model = Post
+        model = Rate()
         fields = [
             'id', 'owner', 'is_owner', 'profile_id',
             'profile_image', 'rate'
