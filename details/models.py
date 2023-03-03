@@ -3,11 +3,6 @@ from django.contrib.auth.models import User
 
 
 class Details(models.Model):
-    """
-    Post model, related to 'owner', i.e. a User instance.
-    Default image set so that we can always reference image.url.
-    """
-
     location_filter_choices = [
         ('temple_bar', 'Temple Bar'),
         ('sandymount', 'Sandymount'),
