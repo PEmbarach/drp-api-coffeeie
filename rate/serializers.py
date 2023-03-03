@@ -13,7 +13,7 @@ class RateSerializer(serializers.ModelSerializer):
         return request.user == obj.owner
 
     class Meta:
-        model = Rate()
+        model = Rate
         fields = [
             'id', 'owner', 'is_owner', 'profile_id',
             'profile_image', 'rate'

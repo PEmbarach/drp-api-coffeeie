@@ -1,8 +1,10 @@
+from django.http import Http404
 from rest_framework import status, permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import Rate
 from .serializers import RateSerializer
+from drf_api.permissions import IsOwnerOrReadOnly
 
 
 class RateList(APIView):
@@ -12,9 +14,9 @@ class RateList(APIView):
     ]
 
     def get(self, request):
-        rates = Rate.objects.all()
+        rate = Rate.objects.all()
         serializer = RateSerializer(
-            rates, many=True, context={'request': request}
+            rate, many=True, context={'request': request}
         )
         return Response(serializer.data)
 
@@ -29,4 +31,43 @@ class RateList(APIView):
             )
         return Response(
             serializer.errors, status=status.HTTP_400_BAD_REQUEST
+        )
+
+
+class RateDetail(APIView):
+    permission_classes = [IsOwnerOrReadOnly]
+    serializer_class = RateSerializer
+
+    def get_object(self, pk):
+        try:
+            rate = Rate.objects.get(pk=pk)
+            self.check_object_permissions(self.request, rate)
+            return rate
+        except Rate().DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk):
+        rate = self.get_object(pk)
+        serializer = RateSerializer(
+            rate, context={'request': request}
+        )
+        return Response(serializer.data)
+
+    def put(self, request, pk):
+        rate = self.get_object(pk)
+        serializer = RateSerializer(
+            rate, data=request.data, context={'request': request}
+        )
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(
+            serializer.errors, status=status.HTTP_400_BAD_REQUEST
+        )
+
+    def delete(self, request, pk):
+        rate = self.get_object(pk)
+        rate.delete()
+        return Response(
+            status=status.HTTP_204_NO_CONTENT
         )
