@@ -1,73 +1,26 @@
-from django.http import Http404
-from rest_framework import status, permissions
-from rest_framework.response import Response
-from rest_framework.views import APIView
+from rest_framework import generics, permissions
+from drf_api.permissions import IsOwnerOrReadOnly
 from .models import Details
 from .serializers import DetailsSerializer
-from drf_api.permissions import IsOwnerOrReadOnly
 
 
-class DetailsList(APIView):
+class DetailsList(generics.ListCreateAPIView):
+    """
+    List Detailss or create a Details if logged in
+    The perform_create method associates the Details with the logged in user.
+    """
     serializer_class = DetailsSerializer
-    permission_classes = [
-        permissions.IsAuthenticatedOrReadOnly
-    ]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    queryset = Details.objects.all()
 
-    def get(self, request):
-        details = Details.objects.all()
-        serializer = DetailsSerializer(
-            details, many=True, context={'request': request}
-        )
-        return Response(serializer.data)
-
-    def post(self, request):
-        serializer = DetailsSerializer(
-            data=request.data, context={'request': request}
-        )
-        if serializer.is_valid():
-            serializer.save(owner=request.user)
-            return Response(
-                serializer.data, status=status.HTTP_201_CREATED
-            )
-        return Response(
-            serializer.errors, status=status.HTTP_400_BAD_REQUEST
-        )
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
 
 
-class DetailsDetail(APIView):
+class DetailsDetail(generics.RetrieveUpdateDestroyAPIView):
+    """
+    Retrieve a Details and edit or delete it if you own it.
+    """
+    serializer_class = DetailsSerializer
     permission_classes = [IsOwnerOrReadOnly]
-    serializer_class = DetailsSerializer
-
-    def get_object(self, pk):
-        try:
-            details = Details.objects.get(pk=pk)
-            self.check_object_permissions(self.request, details)
-            return details
-        except Details().DoesNotExist:
-            raise Http404
-
-    def get(self, request, pk):
-        details = self.get_object(pk)
-        serializer = DetailsSerializer(
-            details, context={'request': request}
-        )
-        return Response(serializer.data)
-
-    def put(self, request, pk):
-        details = self.get_object(pk)
-        serializer = DetailsSerializer(
-            details, data=request.data, context={'request': request}
-        )
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(
-            serializer.errors, status=status.HTTP_400_BAD_REQUEST
-        )
-
-    def delete(self, request, pk):
-        details = self.get_object(pk)
-        details.delete()
-        return Response(
-            status=status.HTTP_204_NO_CONTENT
-        )
+    queryset = Details.objects.all()
