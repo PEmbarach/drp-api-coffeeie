@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 
 class Rate(models.Model):
@@ -7,7 +8,13 @@ class Rate(models.Model):
     Rate model, related to 'owner', i.e. a User instance.
     """
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    rate = models.TextField(max_length=50, blank=True)
+    rate = models.IntegerField(
+        default=0,
+        validators=[
+            MaxValueValidator(5),
+            MinValueValidator(0),
+        ]
+    )
 
     class Meta:
         ordering = ['rate']

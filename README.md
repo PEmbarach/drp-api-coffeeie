@@ -291,5 +291,9 @@ pip3 freeze --local > requirements.txt
 - Oisin from Tutor support went above & beyond to assist me in resolving an issue with my database that prevented new posts from being created. The steps we took have been documented in point #5 of the Manual Testing section.
 
 ### Media:
-- Default post image Photo by Artem Podrez from [Pexels](https://www.pexels.com/photo/image-of-a-whale-made-of-scrap-materials-7048043/)
-- Default profile image from [Favicon](https://favicon.io/emoji-favicons/alien-monster)
+- Default post image Photo by Artem Podrez from [Pexels]()
+- Default profile image from [Favicon]()
+
+## Acknowledgements
+
+- I also sourced information and help from a variety of sources such as Slack Community Channels, Udemy, W3Schools, MDN and YouTube for Online Web Tutorials and resources.

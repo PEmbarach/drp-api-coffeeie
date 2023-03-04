@@ -13,7 +13,7 @@ class Details(models.Model):
         ('smithfield', 'Smithfield'),
         ('cabra', 'Cabra'),
         ('ashtown', 'Ashtown'),
-        ('phibsborough', 'Phibsboorough')
+        ('phibsborough', 'Phibsborough')
     ]
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
