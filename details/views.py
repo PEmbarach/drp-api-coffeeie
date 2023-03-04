@@ -5,10 +5,6 @@ from .serializers import DetailsSerializer
 
 
 class DetailsList(generics.ListCreateAPIView):
-    """
-    List Detailss or create a Details if logged in
-    The perform_create method associates the Details with the logged in user.
-    """
     serializer_class = DetailsSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     queryset = Details.objects.all()
@@ -18,9 +14,6 @@ class DetailsList(generics.ListCreateAPIView):
 
 
 class DetailsDetail(generics.RetrieveUpdateDestroyAPIView):
-    """
-    Retrieve a Details and edit or delete it if you own it.
-    """
     serializer_class = DetailsSerializer
     permission_classes = [IsOwnerOrReadOnly]
     queryset = Details.objects.all()
