@@ -95,13 +95,11 @@ python3 manage.py createsuperuser
 
 ## Deployment:
 ### Project creation:
-1. Create the GitHub repository.
-2. Create the project app on [Heroku](heroku.com).
-3. Add the Postgres package to the Heroku app via the Resources tab.
-4. Once the GitHub repository was launched on GitPod, installed the following packages using the `pip install` command:
+1. Create the GitHub repository using the CI Template Repo.
+3. Once the GitHub repository was launched on GitPod, installed the following packages using the `pip install` command, as requested in the Django REST Framework module:
 ```
 'django<4'
-dj3-cloudinary-storage
+django-cloudinary-storage
 Pillow
 djangorestframework
 django-filter

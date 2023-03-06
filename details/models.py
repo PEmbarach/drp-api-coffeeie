@@ -20,7 +20,7 @@ class Details(models.Model):
     price = models.TextField(max_length=50, blank=True)
     location = models.TextField(max_length=255, blank=True)
     location_filter = models.CharField(
-        max_length=32, choices=location_filter_choices, default='normal'
+        max_length=32, choices=location_filter_choices, default='none'
     )
 
     # class Meta:
