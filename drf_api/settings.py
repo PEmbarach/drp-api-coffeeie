@@ -122,7 +122,7 @@ if 'CLIENT_ORIGIN_DEV' in os.environ:
 
 CORS_ALLOW_CREDENTIALS = True
 
-ROOT_URLCONF = 'drf_api_coffeei.urls'
+ROOT_URLCONF = 'drf_api_coffeeie.urls'
 
 TEMPLATES = [
     {
